@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Zoom In: An Introduction to Circuits</title>
+  </head>
+
+  <body>
+    <d-front-matter>
+      <code style="display: none;" type="text/json"
+        >{{ "title": "Naturally Occurring Equivariance in Neural Networks", "description": "",
+        "authors": [
+          {{ "author": "Chris Olah", "authorURL": "https://colah.github.io", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
+          {{ "author": "Nick Cammarata", "authorURL": "http://nickcammarata.com", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
+          {{ "author": "Chelsea Voss", "authorURL": "", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
+          {{ "author": "Gabriel Goh", "authorURL": "http://gabgoh.github.io", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }}
+        ],
+        "katex": {{
+          "delimiters": [
+          {{
+            "left": "$$",
+            "right": "$$",
+            "display": true
+          }},
+            {{
+              "left": "$",
+              "right": "$",
+              "display": false
+            }}
+          ]
+        }}
+       }}</code>
+    </d-front-matter>
+    <d-title>
+      <h1>Naturally Occurring Equivariance in Neural Networks</h1>
+    </d-title>
+    <d-byline></d-byline>
+    <d-article>
+      <section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px;">
+          <img class="icon" src="images/multiple-pages.svg" width="43px" height="50px">
+          <p class="explanation">
+              This article is part of the <a href="/2020/circuits/">Circuits thread</a>, an experimental format collecting invited short articles and critical commentary delving into the inner workings of neural networks.
+          </p>
+          <a class="prev" href="/2020/circuits/">Circuits Thread</a>
+          <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a>
+      </section>
+
+
+      <d-contents>
+        <nav class="l-text toc figcaption">
+          <h3>Contents</h3>
+          <div><a href="#">Temp</a></div>
+          
+        </nav>
+      </d-contents>
+
+      <!-- <figure class="dog-circuit-figure">
+        {{images/DogCircuit}}
+      </figure> -->
+      
+      
+      <p>Convolutional neural networks contain a hidden world of symmetries within themselves. This symmetry is a powerful tool in understanding the features and circuits inside neural networks. It also suggests that efforts to design neural networks with complex symmetries baked in may be on a promising track.
+
+        <p>To see these symmeries, we need to look at the individual neurons inside convolutional neural networks. It turns out that many neurons are slightly transformed versions of the same basic feature -- a phenomenon we sometimes call equivariance.[footnote on equivariance] In this article, we’ll focus on examples in InceptionV1, but we’ve observed at least some equivariance in every ImageNet model we’ve studied.
+        
+        <p>One example of equivariance is rotated versions of the same feature. These are especially common in early vision:
+        
+        <figure class="rot-features">{images/rot-features}</figure>
+        
+        <p>One can test that these are genuinely rotated versions of the same feature by taking examples that cause one to fire, rotating them, and checking that the others fire as expected. For example, in the following chart we can see that curve detectors all fire for the same stimuli at different orientations:
+        
+        
+        
+        <p>Rotated versions aren’t the only kind of variation we see. It’s also quite common to see the same feature at different scales, although usually the scaled features occur at different layers. For example, we see across almost an order of magnitude in scale, with the small ones in early layers and the large ones in later layers, after several more stages of pooling and convolution.
+        
+          <figure class="scale-features">{images/scale-features}</figure>
+        
+        <p>For color-detecting features, we often see variants detecting the same thing in different hues. For example, color center-surround units will detect one hue in the center, and the opposing hue on around it. Units can be found doing this up until the seventh or even eighth layer of InceptionV1.
+        
+          <figure class="hue-features">{images/hue-features}</figure>
+        
+        <p>In early vision, we very often see color contrast units. These units detect one hue on one side, and the opposite hue on the other. As a result, they have variation in both hue and rotation.  These variations are particularly interesting, because there’s an interaction between hue and rotation. But cycling hue by 180 degrees flips which hue is on which side, and is so is equivalent to rotating by 180 degrees:
+        
+        (hue +180, orientation) = (hue, orientation+180)
+        
+        <p>In the following diagram, we show orientation rotating the whole 360 degrees, but hue only rotating 180. At the bottom of the chart, it wraps around to the top but shifts by 180 degrees.
+        
+        
+        <figure class="huerot-features">{images/huerot-features}</figure>
+        
+        <p>As we move into the mid layers of the network, rotated variations become less prominent, but horizontally flipped pairs become quite prevalent.
+        
+        <figure class="flip-features">{images/flip-features}</figure>
+        
+        <p>Finally, we see exotic variations of features. For example, short vs long-snouted versions of the same dog head features, or human vs dog versions of the same feature. We even see units which are equivariant to camera perspective (found in a Places365 model). These generally aren’t something that we would classically think of as forms of equivariance, but do seem to essentially be the same thing.
+        
+        <figure class="exotic-features">{images/exotic-features}</figure>
+        
+ 
+
+        
+        <h2>Naturally Equivariant Circuits</h2>
+        
+        <p>The equivariant behavior we observe in neurons is really a reflection of a deeper symmetry that exists in the weights of neural networks and the circuits they form.
+        
+        <p>We’ll start by focusing on rotationally equivariant features that are formed from rotationally invariant features. This “invariant->equivariant” case is probably the simplest form of equivariant circuit.
+        
+        <p>In the following example, we see high-low frequency detectors get built from a high-frequency factor and a low-frequency factor (both factors correspond to a combination of neurons in the previous layer). Each high-low frequency detector responds to a transition in frequency in a given direction, detecting high-frequency patterns on one side, and low frequency patterns on the other. Notice how the same weight pattern rotates, making rotated versions of the feature.
+        
+        
+        <figure class="hilo-circuit">{images/hilo-circuit}</figure>
+        
+        
+        <p>This same pattern can be used in reverse to turn rotationally equivariant features back into rotationally invariant features. In the following example, we see several green-purple color contrast detectors get combined to create green-purple and purple-green center-surround detectors.
+        
+        Compare the weights in this circuit to the ones in the previous one. It’s literally the same weight pattern transposed.
+        
+        
+        <figure class="greenpurple-circuit">{images/greenpurple-circuit}</figure>
+        
+        
+        <p>Sometimes we see one of these immediately follow the other: equivariance be created, and then immediately partially used to create invariant units.
+        
+        <p>In the following example, a generic color factor and a black and white factor are used to create black and white vs color features. Later, the black and white color vs color features are combined to create units which detect black and white at the center, but color around, or vice versa.
+        
+        
+        <figure class="BW-circuit">{images/BW-circuit}</figure>
+        
+        
+        <p>Another example of equivariant features being combined to create invariant features is very early line detectors being combined to create a small circle unit and diverging lines unit.
+        
+        
+        <figure class="circlestar-circuit">{images/circlestar-circuit}</figure>
+        
+        
+        <p>For a more complex example of rotational equivariance being combined to create invariant units, we can look at curves being combined to create circle and evolute detectors. This circuit is also an example of scale equivariance. The same general pattern which turns small curve detectors into a small circle detector turns large curve detectors into a large circle detector. The same pattern which turns medium curve detectors into a medium evolute detector turns large curves into a large evolute detector.
+        
+        <figure class="circle-evolute-circuits">{images/circle-evolute-circuits}</figure>
+        
+        <p>So far, all of the examples we’ve seen of circuits have involved rotation. These human-animal and animal-human detectors are an example of horizontal flip equivariance instead:
+        
+        <figure class="person-circuit">{images/person-circuit}</figure>
+        
+        <p>Conversely, this example (discussed in zoom in), shows left and right oriented dog heads get combined into a pose invariant dog head detector. Notice how the weights flip.
+        
+        <figure class="dog-circuit" style='max-width: 400px;'>{images/dog-circuit}</figure>
+        
+        
+        <p>The circuits we’ve looked at so far either had invariant input units, or invariant output units. Circuits of this form are quite simple: the weights rotate, or flip, or otherwise transform, but still connect together the same features. When we have equivariant units connecting to another set of equivariant units, the structure becomes a little bit more complex. We need to consider the relative relationship between the two units.
+        
+        <p>Let’s start with a circuit connecting two sets of hue-equivariant center-surround detectors. Each unit in the second layer is excited by the unit selecting for a similar hue in the previous layer.
+        
+        
+        <figure class="hue-circuit">{images/hue-circuit}</figure>
+        
+        
+        <p>To understand the above, we need to focus on the relative relationships between neurons-- in this case, how far the hues are apart on the color wheel.
+        
+        <p>Let’s now consider a slightly more complex example: how early curve detectors connect to late curve detectors. We’ll focus four curve detectors that are 90 degrees rotated from each other. (They have clean weights and even spacing between them, which will make the pattern easier to see.)
+        
+        <p>If we just look at the matrix of weights, it’s a bit hard to understand. But if we focus on how each curve detector connects to the earlier curve in the same and opposite orientations, it becomes easier to see the structure. Rather than each curve being built from the same neurons in the previous layer, they shift. Each curve is excited by curves in the same orientation and inhibited by those in the opposite. At the same time, the spatial structure of the weights also rotate.
+        
+        
+        <figure class="curve-circuit">{images/curve-circuit}</figure>
+        
+        
+        
+        <p>For a yet more complex example, let’s look at how color contrast detectors connect to line detectors. The general idea is line detectors should fire more strongly if there are different colors on each side of the line. They should also be inhibited by a change in color if it is perpendicular to the line.
+        
+        <p>Note that this is an equivariant->equivariant circuit with respect to rotation, but equivariant->invariant with respect to hue.
+        
+        <figure class="coloredge-circuit">{images/coloredge-circuit}</figure>
+        
+        
+        
+        <h2>Equivariant Neural Network Architectures</h2>
+        
+        <p>So far, we’ve discussed equivariance in terms of symmetries that naturally form in conv nets we train on natural vision tasks. In principle, these conv nets didn’t need to learn equivariant features. The equivariance is an emergent property, forming because it helps the model accomplish the task.
+        
+        <p>Equivariance has a rich history in deep learning, but it’s normally discussed as a property designed into special neural network architectures. In fact, many important neural network architectures have equivariance at their core,[footnote on equivariance in different architectures] and there is a very active thread of research around more aggressively incorporating equivariance. 
+        
+        <p>Despite the focus on designing architectures to be equivariant, that has been an interesting back and forth, where this work has sometimes been informed by interpretability. Researchers will often study features in the first layer of neural networks (features in the first layer are easy to study, because you can just visualize the weights to pixel values), and discover that many features are transformed versions of one basic template. This naturally occurring equivariance in the first layer has then sometimes been -- and in other cases, easily could have been -- inspiration for the design of new architectures.
+        
+        <p>For example, if you train a fully-connected neural network on a visual task, the first layer will learn variants of the same features over and over: Gabor filters at different positions, orientations, and scales.  Convolutional neural networks changed this. By baking the existence of translated copies of each feature -- translational equivariance -- directly into the network architecture, they generally remove the need for the network to learn translated copies of each feature. This resulted in a massive increase in statistical efficiency, and became the cornerstone of modern deep learning approaches to computer vision.
+        
+        <p>But despite getting rid of translated copies of features, other copied variations tend to remain. If we look at the first layer of a well-trained convolutional neural network, the features still tend to be very repetitive. While there’s no longer translated versions of the same feature [FN], we often see lots of rotated copies of the same feature:
+        
+        
+        
+        <p>Inspired by this, a 2011 paper subtitled “One Gabor to Rule Them All” created a sparse coding model which had a single Gabor filter translated, rotated, and scaled [FN]. In more recent years, a number of papers have extended this equivariance to the hidden layers of neural networks, and to broader kinds of transformations.
+        
+        <p>Just as convolutional neural networks enforce that the weights between two features be the same if they have the same relative position:
+        
+        
+        $$W_{{(x_1,~y_1,~a) ~\to~ (x_2,~y_2,~b)}} ~~=~~ W_{{(x_1+\Delta x,~y_1 +\Delta y,~a) ~\to~ (x_2+\Delta x,~y_2+\Delta y,~b)}}$$
+        
+        <p>… these more sophisticated equivariant networks make the weights between two neurons equal if they have the same relative relationship under more general transformations:[long technical footnote, see below]
+        
+        
+        $$W_{{a~\to~ b}} ~~=~~ W_{{T(a) \to T(b)}}$$
+        
+        <p>This is, at least approximately, what we saw conv nets naturally doing when we look at equivariant circuits! The weights had symmetries that caused neurons with similar relationships to have similar weights, much like an equivariant architecture would force them to. 
+        
+        <h3>Inside Equivariant Neural Networks</h3>
+        
+        <p>Given that equivariance is usually discussed in the context of these specially designed equivariant neural network architectures, it seems natural to ask: what happens inside these models? Do they learn the same equivariant features we see naturally form? Or do they do something entirely different?
+        
+        <p>To answer these questions, we trained an equivariant model roughly inspired by InceptionV1 on ImageNet. We made half the neurons rotationally equivariant (with 16 rotations), and made the others rotationally invariant. Since we put no effort into tuning it, the model achieved abysmal test accuracy (TODO).
+        
+        <p>But looking at mixed3b, we found that many of the neurons were our familiar friends all the same. On the right (“equivariant units”), we see several curve and shallow curve features, a divot detector, a boundary detector, and an oriented fur detector. (There are also several features which aren’t immediately familiar to us.)
+        
+        
+        
+        
+        <p>It appears that the same features which naturally form equivariant families in InceptionV1 will also form as equivariant features in a network that enforces equivariance. This seems significant for two reasons. 
+        
+        <p>Firstly, as researchers engaged in more qualitative research, we should always be worried that we may be fooling ourselves. Successfully predicting which features will form in an equivariant neural network architecture is actually a pretty non-trivial prediction to make, and a nice confirmation that we’re correctly understanding things.
+        
+        <p>Secondly, it establishes a link between architectural decisions in a neural network (enforcing equivariance) and the study of features and circuits. One of the tragedies of deep learning research is that in training a neural network one often gets only a few bits of feedback in the form of whether test loss goes up or down. But here we have a way to get rich feedback connected to the heart of a line of research. One could imagine training complex equivariant architectures with a rich feedback loop of what kind of feature forms in each part of the model.
+        
+        <h3>When Should We Expect Equivariance to Help Performance?</h3>
+        
+        <p>Convolutional neural networks have been enormously successful by baking in translational equivariance. One might have hoped that similar gains would be achieved by adding other kinds of equivariance to neural network architectures. Unfortunately, this has generally not been true, at least in the domain of images. The most studied case is rotational equivariance. Although rotation has led to significant improvements in some special cases [], it has generally not led to significant improvements on natural vision tasks like ImageNet.
+        
+        <p>If neural networks want to be equivariant so much that they try to learn equivariant features, why has equivariance not helped more? Can natural equivariance shed light on when we should expect equivariance to actually improve performance?
+        
+        <p>Our basic theory for why equivariance doesn’t help more is that the fraction of the model that “wants” to be equivariant to the transformations people try is too small.
+        
+        <p>To make this concrete, it’s useful to think about how many parameters need to be learned to implement a behavior. Let’s try to imagine how many parameters a partially equivariant model would need to mimic a normal model which has learned some equivariance features. If it needs significantly less parameters, that suggests that equivariance might be helpful.
+        
+        <p>Specifically, let’s imagine a network architecture which enforces some kind of equivariance -- say rotation -- with $K$ copies of each feature, but only for the fraction of neurons which would naturally develop that form equivariance. The other neurons are left as regular, convolutional neurons. Let’s call the fraction of units which are equivariant $r$.
+        
+        <p>In our partially equivariant model, all the parameters that involve non-equivariant units will need to be learned normally. But the parameters connecting equivariant neurons to other equivariant neurons ($r^2$ of the parameters) are reduced by a factor $K$. This means the total reduction in parameters is a ratio of:
+        
+        
+        
+        $$\frac{{N_\text{{new params}}}}{{N_\text{{old params}}}} ~~=~~ 1 - \frac{{K-1}}{{K}}r^2$$
+        
+        <p>Note that no matter what K is, this can only reduce, it can only reduce the parameters by at most r^2, the number of parameters connecting equivariant features. And this is the best case! If you were to force equivariance on features for which it isn’t useful (say an upside down dog head detector), you’d increase the number of parameters needed for those features by K instead.
+        
+        <p>So what fraction of neurons in a model are rotationally equivariant? Well, rotational equivariance  (and rotational invariance, which can also be included) is quite common in early vision. Perhaps 80% of features in early vision fall into these categories. But early vision is only about 10% of InceptionV1 -- most neurons are in late vision, where rotational equivariance is rare. Let’s say that overall, 10% of neurons are rotationally equivariant. Well, ten percent squared is only one percent of parameters, so we shouldn’t expect rotationaly equivariance to be able to reduce the parameter account by more than 1%.
+        
+        <p>This is a heuristic argument, and there’s all sorts of ways it could be wrong, but it offers a possible explanation of why equivariant architectures have had limited success. And it may suggest a way to improve: in later layers, we observe “exotic equivariance” where features are equivariant to things like human vs dog, long vs short dog snout, or pose. It’s not fully clear how widespread these exotic notions of equivariance are. They likely can’t be formalized in terms of group actions and convolutions. But if a framework for them could be developed, perhaps it could make further equivariance successful for natural vision tasks.
+        
+        
+        
+        <h3>When Should We Expect Equivariance to Help Interpretability?</h3>
+        
+        <p>Equivariance has a remarkable ability to simplify our understanding of neural networks. When we see neural networks as families of features, interacting in structured ways, understanding small templates can actually turn into understanding how large numbers of neurons interact. Equivariance is a big help whenever we discover it.
+        
+        <p>We sometimes think of understanding neural networks as being like reverse engineering a regular computer program. In this analogy, equivariance is like finding the same inlined function repeated throughout the code. Once you realize that you’re seeing many copies of the same function, you only need to understand it once.
+        
+        <p>But natural equivariance does have some limitations. For starters, we have to find the equivariant families. This can actually take us quite a bit of work, poring through neurons. Further, they may not be exactly equivariant: one unit may be wired up slightly differently, or have a small exception, and so understanding it as equivariant could leave gaps in our understanding.
+        
+        <p>We’re excited about the potential of equivariant architectures to make the features and circuits of neural networks easier to understand. This seems especially promising in the context of early vision, where the vast majority of features seem to be equivariant to rotation, hue, scale, or a combination of those.
+        
+        <p>One of the biggest -- and least discussed -- advantages we have over neuroscientists in studying vision in artificial neural networks instead of biological neural networks is translational equivariance. By only having one neuron for each feature instead of tens of thousands of translated copies, convolutional neural networks massively reduce the complexity of studying artificial vision systems relative to biological ones. This has been a key ingredient in making it at all plausible that we can systematically understand InceptionV1.
+        
+        <p>Perhaps in the future, the right equivariant architecture will be able to shave another order of magnitude of complexity off of understanding early vision in neural networks. If so, understanding early vision might move from “possible with great effort” to “easily achievable.”
+        
+        
+
+
+      <section id="thread-nav" class="thread-info">
+          <img class="icon" src="images/multiple-pages.svg" width="43px" height="50px">
+          <p class="explanation">
+              This article is part of the Circuits thread, a collection of short articles and commentary by an open scientific collaboration delving into the inner workings of neural networks.<br>
+          </p>
+
+          <a class="prev" href="/2020/circuits/">Circuits Thread</a>
+          <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a>
+      </section>
+
+
+
+
+
+    </d-article>
+
+
+    <d-appendix>
+      <d-footnote-list></d-footnote-list>
+      <d-citation-list></d-citation-list>
+    </d-appendix>
+
+    <d-bibliography src="bibliography.bib"></d-bibliography>
+
+    <script src="https://distill.pub/template.v2.js"></script>
+
+  </body>
+</html>
