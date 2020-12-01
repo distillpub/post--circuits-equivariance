@@ -40,9 +40,17 @@ for f in os.listdir("public/images/"):
       if "_" in neuron_id and neuron_id.split("_")[0] in layer_sizes:
         if neuron_id.count("_") > 1:
           neuron_id = neuron_id[:-2]
-        url = "https://storage.googleapis.com/inceptionv1-weight-explorer/%s.html" % neuron_id
+        url = "https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/%s.html" % neuron_id
         #pattern_n = line.split("#pattern")[1].split(")")[0]
         # print("link found!", neuron_id)
+        line = line.replace("id=", "class='unit' id=")
+        text.append("<a href='%s'>" % url)
+        text.append(line)
+        text.append("</a>")
+      elif "_" in neuron_id and neuron_id.split("_")[0] == "Places":
+        layer, unit = neuron_id.split("_")[1:3]
+        url = f"https://microscope.openai.com/models/inceptionv1_caffe_places365/inception_{layer}_output_0/{unit}"
+        line = line.replace("id=", "class='unit' id=")
         text.append("<a href='%s'>" % url)
         text.append(line)
         text.append("</a>")

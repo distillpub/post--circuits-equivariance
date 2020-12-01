@@ -73,8 +73,8 @@
 <path id="Ellipse 2_3" d="M1162.87 198.21C1166.21 194.797 1166.14 189.326 1162.73 185.99C1159.32 182.654 1153.85 182.715 1150.51 186.128" stroke="#515151" stroke-width="2"/>
 </g>
 </g>
-<g id="High-low frequency detectors respond to a high-frequency neuron factor on one side and low frequeny on the other. Notice how the weights rotate:">
-<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="1216.68" y="25.3994"> respond to a </tspan><tspan x="850" y="57.3994">high-frequency neuron factor on one side and </tspan><tspan x="850" y="89.3994">low frequeny on the other. Notice how the </tspan><tspan x="850" y="121.399">weights rotate:</tspan></text>
+<g id="High-low frequency detectors respond to a high-frequency neuron factor on one side and low frequency on the other. Notice how the weights rotate:">
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="1216.68" y="25.3994"> respond to a </tspan><tspan x="850" y="57.3994">high-frequency neuron factor on one side and </tspan><tspan x="850" y="89.3994">low frequency on the other. Notice how the </tspan><tspan x="850" y="121.399">weights rotate:</tspan></text>
 <text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="850" y="25.3994">High-low frequency detectors</tspan></text>
 </g>
 <text id="This makes them rotationally equivariant." fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="850" y="259.399">This makes them rotationally equivariant.</tspan></text>

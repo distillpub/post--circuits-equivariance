@@ -8,10 +8,7 @@ figure > svg {
   height: auto;
 }
 
-img {
-  image-rendering: pixelated;
-}
-figure svg {
+.circuit-diagram svg {
   image-rendering: pixelated;
 }
 .positive-text {
@@ -241,7 +238,8 @@ h2 {
     }
 
     d-contents ul {
-      padding-left: 1em;
+      padding-left: 0.0 !important;
+      margin-left: 14px !important;
     }
 
     d-contents nav ul li {

@@ -1,6 +1,6 @@
-<svg width="1424" height="473" viewBox="0 0 1424 473" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1424" height="531" viewBox="0 0 1424 531" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="circlestar-circuit">
-<rect width="1424" height="473" fill="white"/>
+<rect width="1424" height="531" fill="white"/>
 <g id="Group 66">
 <path id="Line 2" d="M572.5 281.999L537 281.999" stroke="#888888" stroke-width="6"/>
 <path id="Polygon 18" d="M594.5 282L572 294.99L572 269.01L594.5 282Z" fill="#888888"/>
@@ -39,11 +39,19 @@
 <path id="Line 2_5" d="M457.001 176.5L457.001 141" stroke="#888888" stroke-width="6"/>
 <path id="Polygon 18_5" d="M457 198.5L444.01 176L469.99 176L457 198.5Z" fill="#888888"/>
 </g>
-<g id="Group 143">
-<text id="positive (excitation)" fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="780" y="48.3994">positive (excitation)</tspan></text>
-<text id="negative (inhibition)" fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="780" y="92.3994">negative (inhibition)</tspan></text>
-<rect id="Rectangle 94" x="740" y="23" width="31" height="31" rx="5" fill="#CA0020" fill-opacity="0.8"/>
-<rect id="Rectangle 95" x="740" y="68" width="31" height="31" rx="5" fill="#0571B0" fill-opacity="0.8"/>
+<g id="Group 320">
+<text id="positive (excitation)" fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="38" y="524.399">positive (excitation)</tspan></text>
+<rect id="Rectangle 94" y="499" width="31" height="31" rx="5" fill="#CA0020" fill-opacity="0.8"/>
+<text id="negative (inhibition)" fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="339" y="524.399">negative (inhibition)</tspan></text>
+<rect id="Rectangle 95" x="301" y="500" width="30.3586" height="31" rx="5" fill="#0571B0" fill-opacity="0.8"/>
+</g>
+<g id="A circle detector is created by detecting early edges perpendicular to a normal line.">
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="850" y="246.399">A </tspan><tspan x="1052.92" y="246.399"> is created by detecting early </tspan><tspan x="850" y="278.399">edges </tspan><tspan x="1101.96" y="278.399"> to a normal line.</tspan></text>
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="874.761" y="246.399">circle detector</tspan><tspan x="931.13" y="278.399">perpendicular</tspan></text>
+</g>
+<g id="A diverging line detector is created by detecting early edges parallel to a normal line.">
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="850" y="377.399">A </tspan><tspan x="1152.04" y="377.399"> is created by </tspan><tspan x="850" y="409.399">detecting early edges </tspan><tspan x="1209.14" y="409.399"> to a normal line.</tspan></text>
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="874.761" y="377.399">diverging line detector</tspan><tspan x="1117.72" y="409.399">parallel</tspan></text>
 </g>
 </g>
 <defs>
