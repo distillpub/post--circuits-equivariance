@@ -14,10 +14,11 @@
         margin-bottom: 80px !important;
       }}
       .comma-list a {{
-        margin-left: 4px;
+        margin-left: 6px;
+        white-space: nowrap;
       }}
       d-contents {{
-        max-width: 270px;
+        max-width: 250px;
         grid-row: auto / span 3;
       }}
     </style>
@@ -78,26 +79,23 @@
           <a href="#reflection-features">Reflection</a>, 
           <a href="#exotic-features">Exotic</a>
         </li></ul>
-        <div><a href="#"></a>Equivariant Circuits</div>
+        <div><a href="#circuits"></a>Equivariant Circuits</div>
         <ul><li class='comma-list'>
-          <a href="#">High-Low</a>, 
-          <a href="#">Contrast→Center</a>, 
-          <a href="#">BW-Color</a>, 
-          <a href="#">Line→Circle/Divergence</a>, 
-          <a href="#">Curve→Circle/Evolute</a>, 
-          <a href="#">Human-Animal</a>,
-          <a href="#">Invariant Dog Head</a>, 
-          <a href="#">Hue→Hue</a>,
-          <a href="#">Curve→Curve</a>, 
-          <a href="#">Contrast→Line</a>
+          <a href="#circuit-hilo">High-Low</a>, 
+          <a href="#circuit-greenpurple">Contrast→Center</a>, 
+          <a href="#circuit-BW">BW-Color</a>, 
+          <a href="#circuit-circlestar">Line→Circle/Divergence</a>, 
+          <a href="#circuit-circle-evolute">Curve→Circle/Evolute</a>, 
+          <a href="#circuit-person">Human-Animal</a>,
+          <a href="#circuit-dog">Invariant Dog Head</a>, 
+          <a href="#circuit-hue">Hue→Hue</a>,
+          <a href="#circuit-curve">Curve→Curve</a>, 
+          <a href="#circuit-coloredge">Contrast→Line</a>
 
           
         </li></ul>
-        <div><a href="#">Equivariant Neural Network Architectures</a></div>
-        <ul>
-          <li><a href="#">Inside Equivariant Neural Networks</a></li>
-        </ul>
-        <div><a href="#">Conclusion</a></div>
+        <div><a href="#architectures">Equivariant Architectures</a></div>
+        <div><a href="#conclusion">Conclusion</a></div>
         
       </nav>
     </d-contents>
@@ -115,7 +113,7 @@
         It turns out that many neurons are slightly transformed versions of the same basic feature.
         This includes rotated copies of the same feature, scaled copies, flipped copies, features detecting different colors, and much more.
         We sometimes call this phenomenon “<a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariance</a>,” since it means that switching the neurons is equivalent to transforming the input.
-        <d-footnote>The standard definition of <a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariance</a> in group theory is that a function <d-math>f</d-math> is equivariant if for all <d-math>g\in G</d-math>, it's the case that <d-math>f(g\cdot x) = g\cdot f(x)</d-math>. At first blush, this doesn't seem very relevant to transformed versions of neurons.<br><br> Before we talk about the examples introduced in this article, let's talk about how this definition maps to the classic example of equivariance in neural networks: translation and convolutional neural network nets. In a conv net, translating the input image that is equivelant to translating the neurons in the hidden layers (ignoring pooling, striding, etc). Formally, <d-math>g\in Z^2</d-math> and <d-math>f</d-math> maps images to hidden layer activations. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by translating spatially, and acts on the activations by also spatially translating them.<br><br> Now let's consider the case of curve detectors (the first example in the Equivariant Features section), which have ten rotated copies. In this case, <d-math>g\in Z_{{10}}</d-math> and <d-math>f(x) = (\mathrm{{curve}}_1(x), ...)</d-math> maps a position at an image to a ten dimensional vector describing how much each curve detector fires. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by rotating it around that position and <d-math>g</d-math> acts on the hidden layers by reorganzing the neurons so that they orientations correspond to the appropriate rotations. This satisfies, at least approximately, the original definition of equivariance.<br><br> This transformed neuron form of equivariance is a special case of equivariance. There are many ways a neural network could be equivariant without having transformed versions of neurons. Conversely, we'll also see a number of examples of equivariance that don't map exactly to the group theory definition of equivariance: some have "holes" where a transformed neuron is missing, while others consist of a set of transformations that have a weaker structure than a group or don't correspond to a simple action on the image. But this general structure remains.</d-footnote> 
+        <d-footnote>The standard definition of <a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariance</a> in group theory is that a function <d-math>f</d-math> is equivariant if for all <d-math>g\in G</d-math>, it's the case that <d-math>f(g\cdot x) = g\cdot f(x)</d-math>. At first blush, this doesn't seem very relevant to transformed versions of neurons.<br><br> Before we talk about the examples introduced in this article, let's talk about how this definition maps to the classic example of equivariance in neural networks: translation and convolutional neural network nets. In a conv net, translating the input image is equivalent to translating the neurons in the hidden layers (ignoring pooling, striding, etc). Formally, <d-math>g\in Z^2</d-math> and <d-math>f</d-math> maps images to hidden layer activations. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by translating spatially, and acts on the activations by also spatially translating them.<br><br> Now let's consider the case of curve detectors (the first example in the Equivariant Features section), which have ten rotated copies. In this case, <d-math>g\in Z_{{10}}</d-math> and <d-math>f(x) = (\mathrm{{curve}}_1(x), ...)</d-math> maps a position at an image to a ten dimensional vector describing how much each curve detector fires. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by rotating it around that position and <d-math>g</d-math> acts on the hidden layers by reorganizing the neurons so that their orientations correspond to the appropriate rotations. This satisfies, at least approximately, the original definition of equivariance.<br><br> This transformed neuron form of equivariance is a special case of equivariance. There are many ways a neural network could be equivariant without having transformed versions of neurons. Conversely, we'll also see a number of examples of equivariance that don't map exactly to the group theory definition of equivariance: some have "holes" where a transformed neuron is missing, while others consist of a set of transformations that have a weaker structure than a group or don't correspond to a simple action on the image. But this general structure remains.</d-footnote> 
 
       <p>
       In this article, we’ll focus on examples in InceptionV1 <d-cite key="szegedy2015going"></d-cite> trained on ImageNet<d-cite key="deng2009imagenet"></d-cite>, but we’ve observed at least some equivariance in every model trained on natural images we’ve studied.
@@ -173,14 +171,14 @@
   
       <br><br>
       
-      <p><b>High-Low Circuit:</b> In the following example, we see <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_high_low_frequency">high-low frequency detectors</a> get built from a high-frequency factor and a low-frequency factor (both factors correspond to a combination of neurons in the previous layer). Each high-low frequency detector responds to a transition in frequency in a given direction, detecting high-frequency patterns on one side, and low frequency patterns on the other. Notice how the same weight pattern rotates, making rotated versions of the feature.
+      <p><b id="circuit-hilo">High-Low Circuit:</b> In the following example, we see <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_high_low_frequency">high-low frequency detectors</a> get built from a high-frequency factor and a low-frequency factor (both factors correspond to a combination of neurons in the previous layer). Each high-low frequency detector responds to a transition in frequency in a given direction, detecting high-frequency patterns on one side, and low frequency patterns on the other. Notice how the same weight pattern rotates, making rotated versions of the feature.
       
       
       <figure class="circuit-diagram hilo-circuit" style='max-width: 800px;'>{images/hilo-circuit}</figure>
       
       <br><br>
       
-      <p><b>Contrast→Center Circuit:</b> This same pattern can be used in reverse to turn rotationally equivariant features back into rotationally invariant features (an “equivariant→invariant” circuit). In the following example, we see several green-purple <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d2_color_contrast">color contrast detectors</a> get combined to create green-purple and purple-green <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_color_center_surround">center-surround detectors</a>.
+      <p><b id="circuit-greenpurple">Contrast→Center Circuit:</b> This same pattern can be used in reverse to turn rotationally equivariant features back into rotationally invariant features (an “equivariant→invariant” circuit). In the following example, we see several green-purple <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d2_color_contrast">color contrast detectors</a> get combined to create green-purple and purple-green <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_color_center_surround">center-surround detectors</a>.
       
       Compare the weights in this circuit to the ones in the previous one. It’s literally the same weight pattern transposed.
       
@@ -192,31 +190,31 @@
       
       <br><br>
   
-      <p><b>BW-Color Circuit:</b> In the following example, a generic color factor and a black and white factor are used to create black and white vs color features. Later, the <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_bw_vs_color">black and white color vs color features</a> are combined to create units which detect black and white at the center, but color around, or vice versa.
+      <p><b id="circuit-BW">BW-Color Circuit:</b> In the following example, a generic color factor and a black and white factor are used to create black and white vs color features. Later, the <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_bw_vs_color">black and white vs color features</a> are combined to create units which detect black and white at the center, but color around, or vice versa.
       
       
       <figure class="circuit-diagram BW-circuit" style='max-width: 800px;'>{images/BW-circuit}</figure>
       
       <br><br>
       
-      <p><b>Line→Circle/Divergence Circuit:</b> Another example of equivariant features being combined to create invariant features is very early line-like <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d1_complex_gabor">complex Gabor detectors</a> being combined to create a small circle unit and diverging lines unit.
+      <p><b id="circuit-circlestar">Line→Circle/Divergence Circuit:</b> Another example of equivariant features being combined to create invariant features is very early line-like <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d1_complex_gabor">complex Gabor detectors</a> being combined to create a small circle unit and diverging lines unit.
       
       
       <figure class="circuit-diagram circlestar-circuit" style='max-width: 800px;'>{images/circlestar-circuit}</figure>
       
       <br><br>
   
-      <p><b>Curve→Circle/Evolute Circuit:</b> For a more complex example of rotational equivariance being combined to create invariant units, we can look at <a href="https://distill.pub/2020/circuits/curve-detectors/">curve detectors</a> being combined to create <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3b_circles_loops">circle</a> and <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3b_evolute">evolute detectors</a>. This circuit is also an example of scale equivariance. The same general pattern which turns small curve detectors into a small circle detector turns large curve detectors into a large circle detector. The same pattern which turns medium curve detectors into a medium evolute detector turns large curves into a large evolute detector.
+      <p><b id="circuit-circle-evolute">Curve→Circle/Evolute Circuit:</b> For a more complex example of rotational equivariance being combined to create invariant units, we can look at <a href="https://distill.pub/2020/circuits/curve-detectors/">curve detectors</a> being combined to create <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3b_circles_loops">circle</a> and <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3b_evolute">evolute detectors</a>. This circuit is also an example of scale equivariance. The same general pattern which turns small curve detectors into a small circle detector turns large curve detectors into a large circle detector. The same pattern which turns medium curve detectors into a medium evolute detector turns large curves into a large evolute detector.
       
       <figure class="circuit-diagram circle-evolute-circuits" style='max-width: 800px;'>{images/circle-evolute-circuits}</figure>
       
       <br><br>
   
-      <p><b>Human-Animal Circuit:</b> So far, all of the examples we’ve seen of circuits have involved rotation. These human-animal and animal-human detectors are an example of horizontal flip equivariance instead:
+      <p><b id="circuit-person">Human-Animal Circuit:</b> So far, all of the examples we’ve seen of circuits have involved rotation. These human-animal and animal-human detectors are an example of horizontal flip equivariance instead:
       
       <figure class="circuit-diagram person-circuit" style='max-width: 800px;'>{images/person-circuit}</figure>
       
-      <p><b>Invariant Dog Head Circuit:</b> Conversely, this example (part of the broader <a href="https://distill.pub/2020/circuits/zoom-in/#claim-2-dog">oriented dog head circuit</a>) shows left and right oriented dog heads get combined into a pose invariant dog head detector. Notice how the weights flip.
+      <p><b id="circuit-dog">Invariant Dog Head Circuit:</b> Conversely, this example (part of the broader <a href="https://distill.pub/2020/circuits/zoom-in/#claim-2-dog">oriented dog head circuit</a>) shows left and right oriented dog heads get combined into a pose invariant dog head detector. Notice how the weights flip.
       
       <figure class="circuit-diagram dog-circuit" style='max-width: 400px;'>{images/dog-circuit}</figure>
       
@@ -226,7 +224,7 @@
   
       <br><br>
       
-      <p><b>Hue→Hue Circuit:</b> Let’s start with a circuit connecting two sets of hue-equivariant center-surround detectors. Each unit in the second layer is excited by the unit selecting for a similar hue in the previous layer.
+      <p><b id="circuit-hue">Hue→Hue Circuit:</b> Let’s start with a circuit connecting two sets of hue-equivariant center-surround detectors. Each unit in the second layer is excited by the unit selecting for a similar hue in the previous layer.
       
       
       <figure class="circuit-diagram hue-circuit" style='max-width: 800px;'>{images/hue-circuit}</figure>
@@ -236,7 +234,7 @@
       
       <br><br>
   
-      <p><b>Curve→Curve Circuit:</b> Let’s now consider a slightly more complex example, how early curve detectors connect to late curve detectors. We’ll focus four curve detectors that are 90 degrees rotated from each other.<d-footnote>Again, the curve detectors presented were selected to make the circuit as simple and pedagogical as possible. They have clean weights and even spacing between them, which will make the pattern easier to see. A forthcoming article will discuss curve circuits in detail.</d-footnote>
+      <p><b id="circuit-curve">Curve→Curve Circuit:</b> Let’s now consider a slightly more complex example, how early curve detectors connect to late curve detectors. We’ll focus on four curve detectors that are 90 degrees rotated from each other.<d-footnote>Again, the curve detectors presented were selected to make the circuit as simple and pedagogical as possible. They have clean weights and even spacing between them, which will make the pattern easier to see. A forthcoming article will discuss curve circuits in detail.</d-footnote>
       
       <p>If we just look at the matrix of weights, it’s a bit hard to understand. But if we focus on how each curve detector connects to the earlier curve in the same and opposite orientations, it becomes easier to see the structure. Rather than each curve being built from the same neurons in the previous layer, they shift. Each curve is excited by curves in the same orientation and inhibited by those in the opposite. At the same time, the spatial structure of the weights also rotate.
       
@@ -245,7 +243,7 @@
       
       <br><br>
       
-      <p><b>Contrast→Line Circuit:</b> For a yet more complex example, let’s look at how <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d2_color_contrast">color contrast detectors</a> connect to <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_lines">line detectors</a>. The general idea is line detectors should fire more strongly if there are different colors on each side of the line. Conversely, they should be inhibited by a change in color if it is perpendicular to the line.
+      <p><b id="circuit-coloredge">Contrast→Line Circuit:</b> For a yet more complex example, let’s look at how <a href="https://distill.pub/2020/circuits/early-vision/#group_conv2d2_color_contrast">color contrast detectors</a> connect to <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3a_lines">line detectors</a>. The general idea is line detectors should fire more strongly if there are different colors on each side of the line. Conversely, they should be inhibited by a change in color if it is perpendicular to the line.
       
       <p>Note that this is an “equivariant→equivariant” circuit with respect to rotation, but “equivariant→invariant” with respect to hue.
       
@@ -256,7 +254,7 @@
   
       <br><br><hr><br><br><br>
   
-      <h2>Equivariant Neural Network Architectures</h2>
+      <h2 id="architectures">Equivariant Architectures</h2>
   
       <p>
         Equivariance has a rich history in deep learning.
@@ -289,11 +287,11 @@
       <p>… these more sophisticated equivariant networks make the weights between two neurons equal if they have the same relative relationship under more general transformations:<d-footnote>
         For our purposes, it suffices to know that these equivariant neural networks have the same weights when there is the same relative relationship between neurons. This footnote is for the benefit of readers who may wish to engage more deeply in the enforced equivariance literature, and can be safely skipped.
         <br><br>
-        Group theory is an area of mathematics that gives us tools for describing symmetries and sets of interacting transformations. To build equivariant neural networks, we often borrow an idea from group theory called a group convolution. Just as a regular convolution can describe weights to correctly respect translational equivariance, a group convolution can describe weights that respect a complex set of interacting transformations (the group it operates over). Although you could try to work out how to tie the weights to achieve this from first principles, it’s easy to make mistakes. (One of the authors participated in many conversations with researchers in 2012 where people made errors on whiteboards about how sets of rotated and translated features should interact, without using convolutions.) Group convolutions can take any group you describe and give you the correct weight tying.
+        Group theory is an area of mathematics that gives us tools for describing symmetries and sets of interacting transformations. To build equivariant neural networks, we often borrow an idea from group theory called a group convolution. Just as a regular convolution can describe weights that correctly respect translational equivariance, a group convolution can describe weights that respect a complex set of interacting transformations (the group it operates over). Although you could try to work out how to tie the weights to achieve this from first principles, it’s easy to make mistakes. (One of the authors participated in many conversations with researchers in 2012 where people made errors on whiteboards about how sets of rotated and translated features should interact, without using convolutions.) Group convolutions can take any group you describe and give you the correct weight tying.
         <br><br>
         For an approachable introduction to group convolutions, we recommend <a href="https://colah.github.io/posts/2014-12-Groups-Convolution/">this article</a>.
         <br><br>
-        If you dig further, you may begin to see papers discussing something called a group representation instead group convolutions. This is a more advanced topic in group theory. The core idea is analogous to the Fourier transform. Recall that the Fourier transform turns convolution into pointwise multiplication (this is sometimes used to accelerate convolution). Well, the Fourier transform has a version that can operate over functions on groups, and also maps convolution to pointwise multiplication. And when you apply the Fourier transform to a group, the resulting coefficients correspond to something called a group representation, which you can think of as being analogous to a frequency in the regular Fourier transform.
+        If you dig further, you may begin to see papers discussing something called a group representation instead of group convolutions. This is a more advanced topic in group theory. The core idea is analogous to the Fourier transform. Recall that the Fourier transform turns convolution into pointwise multiplication (this is sometimes used to accelerate convolution). Well, the Fourier transform has a version that can operate over functions on groups, and also maps convolution to pointwise multiplication. And when you apply the Fourier transform to a group, the resulting coefficients correspond to something called a group representation, which you can think of as being analogous to a frequency in the regular Fourier transform.
       </d-footnote>
       
       
@@ -301,11 +299,8 @@
       
       <p>This is, at least approximately, what we saw conv nets naturally doing when we look at equivariant circuits! The weights had symmetries that caused neurons with similar relationships to have similar weights, much like an equivariant architecture would force them to. 
       
-      <h3>Inside Equivariant Neural Networks</h3>
-      
       <p>Given that we have neural network architectures which mimic the natural structures we observe, it seems natural to wonder what features and circuits such models learn. Do they learn the same equivariant features we see naturally form? Or do they do something entirely different?
-      
-      <p>To answer these questions, we trained an equivariant model roughly inspired by InceptionV1 on ImageNet. We made half the neurons rotationally equivariant<d-cite key="cohen2016group"></d-cite> (with 16 rotations), and made the others rotationally invariant. Since we put no effort into tuning it, the model achieved abysmal test accuracy but still learns interesting features.<d-footnote>
+      To answer these questions, we trained an equivariant model roughly inspired by InceptionV1 on ImageNet. We made half the neurons rotationally equivariant<d-cite key="cohen2016group"></d-cite> (with 16 rotations), and made the others rotationally invariant. Since we put no effort into tuning it, the model achieved abysmal test accuracy but still learns interesting features.<d-footnote>
         Here are the full set of features learned by the equivariant model. Half are forced to be rotationally equivariant, while half are forced to be rotationally invariant.
         <br><br>
         <img src="images/equiv.png" style='width: 100%; max-width: 800px;'>
@@ -361,7 +356,7 @@
   
        <hr>
   
-       <h2>Conclusion</h2>
+       <h2 id="conclusion">Conclusion</h2>
   
        <p>Equivariance has a remarkable ability to simplify our understanding of neural networks. When we see neural networks as families of features, interacting in structured ways, understanding small templates can actually turn into understanding how large numbers of neurons interact. Equivariance is a big help whenever we discover it.
       
