@@ -9,6 +9,7 @@ figure > svg {
 }
 
 .circuit-diagram svg {
+  image-rendering: crisp-edges;
   image-rendering: pixelated;
 }
 .positive-text {

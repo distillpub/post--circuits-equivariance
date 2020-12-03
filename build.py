@@ -1,4 +1,5 @@
 from collections import defaultdict
+import base64
 import numpy as np
 import os
 
@@ -21,7 +22,8 @@ for f in os.listdir("public/images/"):
   if ".svg" not in f: continue
   name = f.split(".")[0]
   key = "images/" + name
-  print(key)
+  print("")
+  print(key, end=": ")
   lines = open("public/images/" + f).read().split("\n")
   if "<svg" in lines[0]:
     lines[0] = lines[0].replace(">", "id=\"diagram-%s\">"%name)
@@ -57,9 +59,18 @@ for f in os.listdir("public/images/"):
       else:
         text.append(line)
     else:
+      if "<image" in line and "image/png" in line and (len(line) > 10000 or (key!="images/rot-features" and len(line) > 10000)): 
+        image_str = line.split("xlink:href=\"")[1].split("\"")[0]
+        image_content = image_str[len("data:image/png;base64,"):]
+        image_hash = hex(hash(image_content))[4:20]
+        with open(f"public/generated_images/{image_hash}.png", "wb") as f: 
+          f.write(base64.b64decode(image_content))
+        line = line.replace(image_str, f"generated_images/{image_hash}.png")
+        print(len(image_content)//1024, end=", ")
       text.append(line)
   figure_html[key] = "\n".join(text)
 
 index_template = open("index_template.html", "r").read()
 index_html = index_template.format(**figure_html)
 open("public/index.html", "w").write(index_html)
+print("")
