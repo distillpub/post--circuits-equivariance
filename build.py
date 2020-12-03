@@ -66,6 +66,7 @@ for f in os.listdir("public/images/"):
         with open(f"public/generated_images/{image_hash}.png", "wb") as f: 
           f.write(base64.b64decode(image_content))
         line = line.replace(image_str, f"generated_images/{image_hash}.png")
+        line = line.replace(">", "style='image-rendering: auto;' >")
         print(len(image_content)//1024, end=", ")
       text.append(line)
   figure_html[key] = "\n".join(text)
