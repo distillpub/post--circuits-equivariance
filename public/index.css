@@ -22,7 +22,7 @@ figure > svg {
 }
 
 figure > svg text, figure > svg tspan {
-  font-family: sans-serif;
+  font-family: Ariel, sans-serif;
   font-size: 27.5px;
   --font: normal 27.5px sans-serif;
   color: rgba(0, 0, 0, 0.6);
