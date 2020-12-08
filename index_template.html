@@ -27,11 +27,14 @@
   <body>
     <d-front-matter>
       <code style="display: none;" type="text/json"
-        >{{ "title": "Naturally Occurring Equivariance in Neural Networks", "description": "",
+        >{{ 
+        "title": "Naturally Occurring Equivariance in Neural Networks", 
+        "description": "Neural networks naturally learn many transformed copies of the same feature, connected by symmetric weights.",
         "authors": [
           {{ "author": "Chris Olah", "authorURL": "https://colah.github.io", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
           {{ "author": "Nick Cammarata", "authorURL": "http://nickcammarata.com", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
           {{ "author": "Chelsea Voss", "authorURL": "", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }},
+          {{ "author": "Ludwig Schubert", "authorURL": "https://schubert.io/", "affiliation": "", "affiliationURL": ""  }},
           {{ "author": "Gabriel Goh", "authorURL": "https://gabgoh.github.io", "affiliation": "OpenAI", "affiliationURL": "https://openai.com"  }}
         ],
         "katex": {{
@@ -62,8 +65,8 @@
         <p class="explanation">
             This article is part of the <a href="/2020/circuits/">Circuits thread</a>, an experimental format collecting invited short articles and critical commentary delving into the inner workings of neural networks.
         </p>
-        <a class="prev" href="/2020/circuits/">Circuits Thread</a>
-        <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a>
+        <a class="prev" href="/2020/circuits/curve-detectors/">Curve Detectors</a>
+        <!-- <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a> -->
     </section>
       
      
@@ -77,7 +80,7 @@
           <a href="#hue-features">Hue</a>, 
           <a href="#hue-rotation-features">Hue-Rotation</a>, 
           <a href="#reflection-features">Reflection</a>, 
-          <a href="#exotic-features">Exotic</a>
+          <a href="#miscellaneous-features">Miscellaneous</a>
         </li></ul>
         <div><a href="#circuits"></a>Equivariant Circuits</div>
         <ul><li class='comma-list'>
@@ -156,7 +159,7 @@
       
       <figure class="flip-features" style='max-width: 800px;'>{images/flip-features}</figure>
       
-      <p><b id='exotic-features'>Exotic Equivariance:</b> Finally, we see exotic variations of features. For example, short vs long-snouted versions of the same dog head features, or human vs dog versions of the same feature. We even see units which are equivariant to camera perspective (found in a Places365<d-cite key="zhou2016places"></d-cite> model). These generally aren’t something that we would classically think of as forms of equivariance, but do seem to essentially be the same thing.
+      <p><b id='miscellaneous-features'>Miscellaneous Equivariance:</b> Finally, we see variations of features transformed in other miscellaneous ways. For example, short vs long-snouted versions of the same dog head features, or human vs dog versions of the same feature. We even see units which are equivariant to camera perspective (found in a Places365<d-cite key="zhou2016places"></d-cite> model). These aren’t necessarily something that we would classically think of as forms of equivariance, but do seem to essentially be the same thing.
       
       <figure class="exotic-features" style='max-width: 800px;'>{images/exotic-features}</figure>
       
@@ -384,8 +387,8 @@
               This article is part of the Circuits thread, a collection of short articles and commentary by an open scientific collaboration delving into the inner workings of neural networks.<br>
           </p>
 
-          <a class="prev" href="/2020/circuits/">Circuits Thread</a>
-          <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a>
+          <a class="prev" href="/2020/circuits/curve-detectors/">Curve Detectors</a>
+          <!-- <a class="next" href="/2020/circuits/early-vision/">An Overview of Early Vision in InceptionV1</a> -->
       </section>
 
 
@@ -396,6 +399,18 @@
 
 
     <d-appendix>
+      <h3>Author Contributions</h3>
+
+      <p><b>Research:</b> Examples of equivariance emerged across many investigations of features and circuits, so it's hard to separate out contributions in originally discovering it. Chris curated examples of different kinds of equivariant features and circuits. Nick introduced the framing of equivariance being a "motif", similar to motifs in systems biology, and did a very in depth exploration of it in the context of curve detectors. Chelsea and Ludwig also did a fairly in depth investigation of equivariance in the context of high-low frequency detectors. Gabe contributed to early research in circuits which helped surface equivariance.</p>
+
+      <p><b>Writing and Diagrams:</b> Chris wrote and illustrated this article, with feedback from other authors.</p>
+
+      <h3>Acknowledgments</h3>
+      
+      <p>
+        We are very grateful to Taco Cohen for his comments and encouragement on the relationship between circuits and equivariance. We're also very grateful to Vincent Tjeng and Daniel Filan who gave detailed remarks on drafts and pointed out several things that were poorly communicated in an earlier draft, and to Smitty van Bodegom who caught and debugged a subtle cross-browser compatibility issue. Additionally, we appreciate the comments and support of Shan Carter, Tess Smidt, David Valdman, Peter Whidden, Laura Gunsalus, Christian Ng, Yaakov Saxon, Sara Sabour, and Yen Ong.
+      </p>
+
       <d-footnote-list></d-footnote-list>
       <d-citation-list></d-citation-list>
     </d-appendix>
