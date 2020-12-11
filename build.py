@@ -1,7 +1,23 @@
 from collections import defaultdict
 import base64
 import numpy as np
+import lucid
+from lucid.misc.io.showing import _image_url
 import os
+from io import BytesIO
+import PIL
+import PIL.Image
+
+
+
+def png_url2im(url):
+  prefix = "data:image/png;base64,"
+  assert prefix == url[:len(prefix)]
+  img_content = url[len(prefix):]
+  img_content = BytesIO(base64.b64decode(img_content))
+  img = PIL.Image.open(img_content)
+  img = np.asarray(img)
+  return img
 
 
 layer_sizes = {
@@ -66,8 +82,17 @@ for f in os.listdir("public/images/"):
         with open(f"public/generated_images/{image_hash}.png", "wb") as f: 
           f.write(base64.b64decode(image_content))
         line = line.replace(image_str, f"generated_images/{image_hash}.png")
-        line = line.replace(">", "style='image-rendering: auto;' >")
+        line = line.replace("/>", " style='image-rendering: auto;' />")
         print(len(image_content)//1024, end=", ")
+      elif "<image" in line:
+        image_str = line.split("xlink:href=\"")[1].split("\"")[0]
+        arr = png_url2im(image_str)
+        if arr.shape[0] == 5 and arr.shape[1] == 5:
+          print( arr.shape)
+          arr = np.repeat(arr, 4, axis=0)
+          arr = np.repeat(arr, 4, axis=1)
+          new_image_str = _image_url(arr)
+          line = line.replace(image_str, new_image_str)
       text.append(line)
   figure_html[key] = "\n".join(text)
 
