@@ -117,10 +117,18 @@
       This includes rotated copies of the same feature, scaled copies, flipped copies, features detecting different colors, and much more.
       We sometimes call this phenomenon “<a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariance</a>,” since it means that switching the neurons is equivalent to transforming the input.
           <d-footnote>The standard definition of <a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariance</a> in group theory is that a function <d-math>f</d-math> is equivariant if for all <d-math>g\in G</d-math>, it's the case that <d-math>f(g\cdot x) = g\cdot f(x)</d-math>. At first blush, this doesn't seem very relevant to transformed versions of neurons.<br><br> Before we talk about the examples introduced in this article, let's talk about how this definition maps to the classic example of equivariance in neural networks: translation and convolutional neural network nets. In a conv net, translating the input image is equivalent to translating the neurons in the hidden layers (ignoring pooling, striding, etc). Formally, <d-math>g\in Z^2</d-math> and <d-math>f</d-math> maps images to hidden layer activations. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by translating spatially, and acts on the activations by also spatially translating them.<br><br> Now let's consider the case of curve detectors (the first example in the Equivariant Features section), which have ten rotated copies. In this case, <d-math>g\in Z_{{10}}</d-math> and <d-math>f(x) = (\mathrm{{curve}}_1(x), ...)</d-math> maps a position at an image to a ten dimensional vector describing how much each curve detector fires. Then <d-math>g</d-math> acts on the input image <d-math>x</d-math> by rotating it around that position and <d-math>g</d-math> acts on the hidden layers by reorganizing the neurons so that their orientations correspond to the appropriate rotations. This satisfies, at least approximately, the original definition of equivariance.<br><br> This transformed neuron form of equivariance is a special case of equivariance. There are many ways a neural network could be equivariant without having transformed versions of neurons. Conversely, we'll also see a number of examples of equivariance that don't map exactly to the group theory definition of equivariance: some have "holes" where a transformed neuron is missing, while others consist of a set of transformations that have a weaker structure than a group or don't correspond to a simple action on the image. But this general structure remains.</d-footnote> 
-      Equivariance can be seen as a kind of "<a href="https://distill.pub/2020/circuits/zoom-in/#claim-2-motifs">circuit motif</a>," analogous to motifs in systems biology <d-cite key="alon2019introduction"></d-cite>.
+<p>Equivariance can be seen as a kind of "<a href="https://distill.pub/2020/circuits/zoom-in/#claim-2-motifs">circuit
+    motif</a>," an abstract recurring pattern across circuits analogous to motifs in systems biology <d-cite
+    key="alon2019introduction"></d-cite>.
+  It can also be seen as a kind of larger-scale "structural phenomenon" (similar to <a
+    href="/2020/circuits/weight-banding/">weight banding</a> and <a
+    href="https://distill.pub/2020/circuits/branch-specialization/">branch
+    specialization</a>), since a given equivariance type is often widespread in some layers and rare in others.</p>
 
       <p>
-      In this article, we’ll focus on examples in InceptionV1 <d-cite key="szegedy2015going"></d-cite> trained on ImageNet<d-cite key="deng2009imagenet"></d-cite>, but we’ve observed at least some equivariance in every model trained on natural images we’ve studied.
+      In this article, we’ll focus on examples of equivariance in InceptionV1 <d-cite key="szegedy2015going"></d-cite> trained
+      on ImageNet<d-cite key="deng2009imagenet"></d-cite>, but we’ve observed at least some equivariance in every model
+      trained on natural images we’ve studied.
       
         <br><br><hr><br><br>
   
